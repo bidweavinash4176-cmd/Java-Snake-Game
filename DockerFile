@@ -1,0 +1,23 @@
+FROM docker.io/library/eclipse-temurin:21-jre
+
+# Install graphical libraries required by Java Swing
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libxext6 \
+        libxrender1 \
+        libxtst6 \
+        libxi6 \
+        libx11-6 \
+        libxinerama1 \
+        libxrandr2 \
+        libfontconfig1 \
+        libfreetype6 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY out/ /app/out/
+COPY src/resources/ /app/src/resources/
+COPY snake.png /app/snake.png
+
+CMD ["java", "-cp", "out", "com.zetcode.Snake"]
